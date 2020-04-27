@@ -4,7 +4,8 @@
 #include "define.h"
 int cursorX = 0, cursorY = 0;
 const unsigned char sw = 80,sh = 25,sd = 2;      
- 
+int color = 0x0F;
+
 #include "sys.h"
 
 void newLine(){
@@ -45,7 +46,8 @@ void clearLine(uint8 from,uint8 to)
         string vidmem=(string)0xb8000;
         for(i;i<(sw*to*sd);i++)
         {
-                vidmem[i] = 0x0;
+                vidmem[(i / 2)*2 + 1 ] = color ;
+                vidmem[(i / 2)*2 ] = 0;
         }
 }
 void updateCursor()
@@ -107,9 +109,10 @@ void printch(char c)
                 if(cursorX > 0) 
                 {
 	                cursorX--;									
-                        vidmem[(cursorY * sw + cursorX)*sd]=0x00;	                              
+                        vidmem[(cursorY * sw + cursorX)*sd]=0;	                      
 	        }
 	        break;
+      
         case ('\r'):
                 cursorX = 0;
                 break;
@@ -119,7 +122,7 @@ void printch(char c)
                 break;
         default:
                 vidmem [((cursorY * sw + cursorX))*sd] = c;
-                vidmem [((cursorY * sw + cursorX))*sd+1] = 0x02;
+                vidmem [((cursorY * sw + cursorX))*sd+1] = color;
                 cursorX++; 
                 break;
 	
@@ -133,6 +136,7 @@ void printch(char c)
     newLineCheck();
 }
 
+
 void print (string ch)
 {
         uint16 i = 0;
@@ -145,11 +149,10 @@ void print (string ch)
 
 
 // update color released, new c o l o r features!
-int color = 0x0F;
 
 void setScreenColor(int text_color,int bg_color)
 {
-	color =  (bg_color << 4) | text_color;;
+	color =  (bg_color << 4) | text_color;
 }
 void setScreenColorCode(int color_code)
 {
