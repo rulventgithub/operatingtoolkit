@@ -145,22 +145,22 @@ void print (string ch)
 
 
 // update color released, new c o l o r features!
+int color = 0x0F;
 
-void setscrnColor(int text_color,int bg_color)
+void setScreenColor(int text_color,int bg_color)
 {
 	color =  (bg_color << 4) | text_color;;
 }
-void setcolorcode(int color_code)
+void setScreenColorCode(int color_code)
 {
 	color = color_code;
 }
 void cprint(string ch,int text_color,int bg_color)
 {
 	int current_color = color;
-	set_screen_color(text_color,bg_color);
+	setScreenColor(text_color,bg_color);
 	print(ch);
-	set_screen_color_from_color_code(current_color);
+	setScreenColorCode(current_color);
 }
-
  #endif
 
