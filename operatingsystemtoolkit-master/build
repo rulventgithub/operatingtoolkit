@@ -1,0 +1,15 @@
+echo compiling
+nasm -fbin bootsector.asm -o main.bin
+qemu-system-x86_64 main.bin
+
+
+
+
+echo orr.r.
+clear
+nasm -f elf32 -o loader.o bootsector.asm
+gcc -m32 -o kernel.o -c kernel.c -nostdlib -nostartfiles -nodefaultlibs
+ld -T linker.ld -m elf_i386 -o final.bin loader.o kernel.o
+
+
+qemu-system-x86_64 -kernel final.bin
