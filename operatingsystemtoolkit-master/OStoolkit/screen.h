@@ -9,7 +9,7 @@ int color = 0x0F;
 #include "sys.h"
 
 void newLine(){
-    print("\n");
+    print("\n ");
 
 }
 void bios_print(char* text ){
